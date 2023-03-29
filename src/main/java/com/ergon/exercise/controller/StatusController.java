@@ -18,6 +18,7 @@ public class StatusController {
 	@Autowired
 	StatusRepo statusRepo;
 	
+	//Return all the states (3)
 	@GetMapping("/states")
 	public List<Status> getAllStates(){
 		List<Status> states = statusRepo.findAll();

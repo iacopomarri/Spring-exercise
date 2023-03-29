@@ -36,6 +36,8 @@ public class CommentController {
 	@Autowired
     TaskRepo taskRepo;
 	
+	
+	//Add a new comment, linking it to a task and to a user (The user who made it, the post the comment has been posted under)
 	@PostMapping("/comments/{userId}/{taskId}")
 	   public Comment postComment(@RequestBody Comment comment, @PathVariable Long userId, @PathVariable Long taskId){
 	       
@@ -56,6 +58,7 @@ public class CommentController {
 	       
 	   }
 	
+	//Return all the comments in the DB
 	@GetMapping("/comments")
 	public List<Comment> getAllComments(){
 		List<Comment> comments = commentRepo.findAll();
@@ -65,7 +68,7 @@ public class CommentController {
 		return comments;
 	}
 	
-	
+	//Given  task, retrieve all the related comments, and return them ordered by the CreationDate
 	@GetMapping("/comments/{taskId}")
 	public List<Comment> getCommentsByTask(@PathVariable Long taskId){
         Optional<Task> optionalTask = taskRepo.findById(taskId);

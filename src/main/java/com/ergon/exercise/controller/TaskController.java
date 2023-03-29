@@ -35,6 +35,7 @@ public class TaskController {
 	@Autowired
     UserTaskRepo userTaskRepo;
 	
+	//Add a new task to the DB, linking it to a user (user is supposed to be the one who creates the task)
 	@PostMapping("/{userId}/tasks")
 	public Task addTask(@PathVariable Long userId, @RequestBody Task task) {
 		
@@ -60,7 +61,12 @@ public class TaskController {
 		return savedTask;
 	   }
 	
-
+	
+	//Update the status of a task.  Three transitions are possible:
+	//Backlog -> In progress
+	//In progress -> Completed
+	//Complete -> In progress
+	//So two cases are defined: 1) Status is in progress, then we go to complete. 2) Status is either Backlog or Complete, then we go to In progress.
 	@PutMapping("/tasks/{taskId}/status")
 	public Task updateStatus(@PathVariable Long taskId) {
 
@@ -85,6 +91,7 @@ public class TaskController {
 	}
 
 	
+	//Retrieve and return a task given its Id.
 	@GetMapping("/tasks/{taskId}")
 	public Task getTask(@PathVariable Long taskId) {
 		Task task = taskRepo.findById(taskId).orElseThrow(() -> new RuntimeException("Task not found"));
@@ -92,6 +99,7 @@ public class TaskController {
 		return(task);
 	}
 
+	//Return all tasks.
 	@GetMapping("/tasks")
 	public List<Task> getAllTasks(){
 		List<Task> tasks = taskRepo.findAll();
@@ -102,21 +110,22 @@ public class TaskController {
 		return tasks;
 	}
 
-	
+	//Given a user and a status, retrieve and return all the tasks the user is enrolled in, which are in the specified status.
 	@GetMapping("/users/{userId}/status/{statusId}")
     public List<Task> getTasksByUserAndStatus(@PathVariable Long userId, @PathVariable Long statusId) {
+		
         Optional<User> optionalUser = userRepo.findById(userId);
         Optional<Status> optionalStatus = statusRepo.findById(statusId);
         
         if (optionalUser.isPresent() && optionalStatus.isPresent()) {
             User user = optionalUser.get();
             Status status = optionalStatus.get();
+            
             Set<UserTask> userTasks = user.getUserTasks();
             List<Task> result = new ArrayList<>();
             
             for (UserTask userTask : userTasks) {
             	Task task = userTask.getTask();
-            	
                 if (task.getStatus().getId_status().equals(status.getId_status())) {
                     result.add(task);
                 }
@@ -127,9 +136,10 @@ public class TaskController {
         }
     }
 	
-	
+	//Given a user and a task assign to him, add the amount of hours that user worked on the task.
 	@PutMapping("/tasks/{userId}/{taskId}/{hours}")
 	public UserTask addHourToUserTask(@PathVariable Long userId, @PathVariable Long taskId, @PathVariable Float hours) {
+		
 		Optional<UserTask> optUserTask = userTaskRepo.findByUserIdAndTaskId(userId, taskId);
 		
 		if(optUserTask.isPresent()) {
@@ -140,9 +150,10 @@ public class TaskController {
 		else throw new RuntimeException("UserTask not found with this userId and taskId");
 	}
 
-
+	//Given a task, compute and return the total amount of work hours on that task by any user.
 	@GetMapping("/{taskId}/hours")
 	public float getHoursByTask(@PathVariable Long taskId) {
+		
 		Task task = taskRepo.findById(taskId).orElseThrow(() -> new RuntimeException("Task not found"));
 		List<Optional<UserTask>> userTasks = userTaskRepo.findByTaskId(taskId);
 		

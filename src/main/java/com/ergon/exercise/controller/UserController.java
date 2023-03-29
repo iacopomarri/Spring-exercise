@@ -20,8 +20,7 @@ import com.ergon.exercise.repository.UserTaskRepo;
 
 @RestController 	
 public class UserController {
-	    //private static final String template = "Hello, %s!";
-	    //private final AtomicLong counter = new AtomicLong();
+	    
 
 	    @Autowired
 	    UserRepo userRepo;
@@ -32,6 +31,8 @@ public class UserController {
 	    @Autowired
 	    UserTaskRepo userTaskRepo;
 
+	    
+	    //Add a user to the DB
 	    @PostMapping("/users")
 	    public ResponseEntity<User> addUser(@RequestBody User user){
 	        try {
@@ -42,8 +43,8 @@ public class UserController {
 	        }
 	    }
 
-	   
-	@GetMapping("/users")
+	    //Return all the users in the DB
+	    @GetMapping("/users")
 		public ResponseEntity<List<User>> getAllUsers() {
 			 try {
 		        	List<User> list = userRepo.findAll();
@@ -56,7 +57,7 @@ public class UserController {
 		        }
 		}
 		
-	
+	    //Retrieve and return a user by its Id
 		@GetMapping("/users/{userId}")
 		public ResponseEntity<User> getUser(@PathVariable Long userId) {
 			Optional<User> user = userRepo.findById(userId);
@@ -67,6 +68,7 @@ public class UserController {
 			return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
 		}
 		
+		//Retrieve a user by its Id and update its record with the new values.
 		@PutMapping("/users/{userId}")
 		public ResponseEntity<User> updateUser(@RequestBody User user, @PathVariable Long userId){
 			try {
@@ -88,6 +90,7 @@ public class UserController {
 		    }
 		}
 		
+		//Delete the user given its Id. The behaviour of the linked comments and tasks has not been handled.
 		@DeleteMapping("/users/{id}")
 		public ResponseEntity<HttpStatus> deleteUser(@PathVariable Long id){
 			Optional<User> user = userRepo.findById(id);
@@ -104,7 +107,7 @@ public class UserController {
 			}
 		}
 		
-		
+		//Assign a user to a task, given their Ids
 		@PutMapping("/{taskId}/users/{userId}")
 		public User assignTask(@PathVariable Long userId, @PathVariable Long taskId) {
 			Task task = taskRepo.findById(taskId).orElseThrow(() -> new RuntimeException("Task not found"));
