@@ -24,19 +24,22 @@ import lombok.ToString;
 @ToString
 public class Status {
 
-	public enum Value {
-        BACKLOG, IN_PROGRESS, COMPLETED
-    }
-
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id_status;
 	
+	
+	public enum Value {
+        BACKLOG, IN_PROGRESS, COMPLETED
+    }
+
 	@Enumerated(EnumType.STRING)
 	private Value val;
 	
 	private String color;
 	
+	//Define the relationship with Task entity
 	@JsonIgnore
 	@OneToMany(mappedBy = "status")
     private Set<Task> tasksInStatus = new HashSet<>();
@@ -58,7 +61,6 @@ public class Status {
 	public void setId_status(Long id_status) {
 		this.id_status = id_status;
 	}
-
 
 	public Value getVal() {
 		return val;

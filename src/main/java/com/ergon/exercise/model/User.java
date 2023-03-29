@@ -35,12 +35,12 @@ public class User {
 	@Column(name="created_at", nullable=false, updatable=false)
 	private Date createdAt;
 	
-
+	//Splits the N to N relationship with User into two N to 1 relationships with UserTask
 	@JsonIgnore
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
 	private Set<UserTask> userTasks = new HashSet<>();
 
-	
+	//Define the 1 to N relationship with Comment
 	@OneToMany(mappedBy = "user")
 	private Set<Comment> postedComments = new HashSet<>();
 	

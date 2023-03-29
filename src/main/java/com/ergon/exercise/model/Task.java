@@ -24,18 +24,18 @@ public class Task {
 	
 	private Long id_project;
 	
-
-	
+	//Splits the N to N relationship with User into two N to 1 relationships with UserTask
 	@JsonIgnore
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "task")
 	private Set<UserTask> userTasks = new HashSet<>();
 
-	
+	//Define the 1 to N relationship with Comment
 	@JsonIgnore
 	@OneToMany(mappedBy = "task")
     private Set<Comment> relatedComments = new HashSet<>();
 
 
+	//Define the N to 1 relationship with Status
 	@ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "status",  referencedColumnName = "id_status")
     private Status status;

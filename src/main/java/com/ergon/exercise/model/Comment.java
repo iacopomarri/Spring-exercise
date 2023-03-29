@@ -36,15 +36,19 @@ public class Comment {
 	@Column(name="created_at", nullable=false, updatable=false)
 	private Date createdAt;
 	
+	//Define the N to 1 relationship with User
 	@JsonIgnore
 	@ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_user", referencedColumnName = "id")
     private User user;
 
+	//Define the N to 1 relationship with Task
 	@JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_task",  referencedColumnName = "id")
     private Task task;
+	
+	
 	
 	
 	

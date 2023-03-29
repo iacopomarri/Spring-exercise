@@ -1,3 +1,5 @@
+//This class represents the N to N relationship between User and Task
+
 package com.ergon.exercise.model;
 
 import java.util.Date;
@@ -24,11 +26,12 @@ public class UserTask {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	
+	//Define the N to 1 relationship with User
 	@ManyToOne
     @JoinColumn(name = "id_user")
     private User user;
     
-	
+	//Define the N to 1 relationship with Task
     @ManyToOne
     @JoinColumn(name = "id_task")
     private Task task;
