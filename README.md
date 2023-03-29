@@ -52,5 +52,6 @@ A back-end maven application written in Java using Spring Tool Suite, using Hybe
  # POSTMAN
  
  Postman tool is used to create a collection of HTTP requests to send to the back end APIs to test them.
+ Postman collection is available on the Github repo.
  
  
