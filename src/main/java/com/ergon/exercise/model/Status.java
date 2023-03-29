@@ -6,6 +6,8 @@ import java.util.Set;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -22,11 +24,16 @@ import lombok.ToString;
 @ToString
 public class Status {
 
+	public enum Value {
+        BACKLOG, IN_PROGRESS, COMPLETED
+    }
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id_status;
 	
-	private String val;
+	@Enumerated(EnumType.STRING)
+	private Value val;
 	
 	private String color;
 	
@@ -53,11 +60,11 @@ public class Status {
 	}
 
 
-	public String getVal() {
+	public Value getVal() {
 		return val;
 	}
 
-	public void setVal(String val) {
+	public void setVal(Value val) {
 		this.val = val;
 	}
 

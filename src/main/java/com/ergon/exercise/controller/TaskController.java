@@ -66,11 +66,12 @@ public class TaskController {
 
 		Task task = taskRepo.findById(taskId).orElseThrow(() -> new RuntimeException("Task not found"));
 		
-		String statVal = task.getStatus().getVal();
+		//String statVal
+		Status.Value statVal = task.getStatus().getVal();
 		Status status;
 		
 		switch (statVal) {
-		   case "in progress":
+		   case IN_PROGRESS:
 			  status = statusRepo.findById(Long.valueOf(3)).get();
 		      break;
 		   

@@ -23,21 +23,21 @@ public class ExerciseApplication implements CommandLineRunner {
 	      //CREATE AND SAVE A STATE OBJECT REPRESENTING BACKLOG
 	      Status status = new Status();
 	      status.setId_status(Long.valueOf(1));
-	      status.setVal("backlog");
+	      status.setVal(Status.Value.BACKLOG);
 	      status.setColor("red");
 	      statusRepo.save(status);
 
 	      //STATE IN PROGRESS
 	      status = new Status();
 	      status.setId_status(Long.valueOf(2));
-	      status.setVal("in progress");
+	      status.setVal(Status.Value.IN_PROGRESS);
 	      status.setColor("yellow");
 	      statusRepo.save(status);
 	      
 	      //STATE COMPLETE
 	      status = new Status();
 	      status.setId_status(Long.valueOf(3));
-	      status.setVal("completed");
+	      status.setVal(Status.Value.COMPLETED);
 	      status.setColor("green");
 	      statusRepo.save(status);
 	   }
